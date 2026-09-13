@@ -55,7 +55,40 @@ def delete_category(categories, expenses):
     Program asks which category number to delete.
     If there are any expenses in that category, program asks user to confirm whether they want the category to be deleted or not
     If there are no expenses in that category, category is deleted with no confirmation needed from user."""
-    pass
+
+    if len(categories) == 0: #checking if any categories exist or not 
+        print("No existing categories to delete")
+        return
+
+    view_categories(categories) #shows numbered list of categories
+
+    try:
+        choice = int(input('Enter the numver of the category you want to delete: '))
+        category_to_delete = categories[choice - 1] #subtract choice by 1 because indexing starts with 0
+
+    except (ValueError, IndexError): #checks that the input is a number. If not, it raises an error
+        print("Invalid choice")
+        return
+
+    count = 0
+    for e in expenses:
+        if e["category"] == category_to_delete:
+            count += 1 
+
+    if count > 0: 
+        confirm = input( f"{count} expense(s) use '{category_to_delete}'."
+                        f"Deleting this category will also delete these expenses. Would you like to proceed with deleting this category? enter yes/no: ").strip().lower()
+        
+
+        if confirm != "yes": #if user enters anything except yes, deletion will be cancelled
+            print("Deletion cancelled")
+            return
+
+        expenses[:] = [e for e in expenses if e["category"] != category_to_delete] #edits list of expenses by including all the expenses except the one in the category to be deleted.
+        categories.remove(category_to_delete)
+        print(f"Deleted category: {category_to_delete}")
+
+
 
 
 def add_expense(expenses, categories):
@@ -121,7 +154,7 @@ def main(): #function that can run the whole program/functions written in the wh
     expenses = []  #switch to load_expenses(expenses_file) once that's working
     categories = [] #switch to load_categories(categories_file) once that's working
 
-    while True:
+    while True: #infinite loop
         choice = show_menu()
 
         if choice == "1":
