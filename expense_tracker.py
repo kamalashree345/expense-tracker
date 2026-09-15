@@ -48,7 +48,6 @@ def view_categories(categories):
         print(f"{i}. {category}")
 
 
-
 def delete_category(categories, expenses):
     """If categories is empty, function prints a message stating that.
     Categories are displayed using view_categories() so that user can see what they want to delete.
@@ -89,22 +88,48 @@ def delete_category(categories, expenses):
         print(f"Deleted category: {category_to_delete}")
 
 
-
-
 def add_expense(expenses, categories):
-    """If category is expensive, then program tells user to add a category first.
+    """If category is empty, then program tells user to add a category first.
     Show all the categories and ask user to choose a category number to add expense to.
     Make sure that category number exists.
     Ask for an expense and append it to expense list as a dictionary of category and amount
     """
-    pass
+    if len(categories) == 0:
+        print("No categories yet. Please add one first.")
+        return
+
+    view_categories(categories)
+
+    try:
+        category_choice = int(input("Choose the category number: "))
+        category = categories [category_choice -1]
+
+    except (ValueError, IndexError):
+        print("Invalid category choice.")
+        return
+
+    view_categories(categories)
+
+    try:
+        amount = float(input("Entwr expense amount: "))
+        expenses.append({"category": category, "amount": amount}) #A dictionary of category and amount is added to  list of expenses. 
+        print(f"Added expense: {category} - £{amount:.2f}") #The new expense is dislpayed as a 2 decimal number.
+
+    except (ValueError):
+        print("Not a valid number.") 
 
 
 def view_expenses(expenses):
     """If expense list is empty, print a message stating that.
     Print a table with a row for category and amount. 
     """
-    pass
+    if len(expenses) == 0:
+        print("No expenses added yet.")
+        return
+
+    print(f"\n{'Category': <15}{'Amount':>10}") #category and amount are columns and expenses are listed as rows of category and amount.
+    print("-" * 25)
+    for e in print(f"{e['category']: <15}{e['amount']:>10.2f}") #rows are alignded properly under the column headings and expenses are rounded to 2 decimal places.
 
 
 def delete_expense(expenses):
