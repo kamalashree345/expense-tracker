@@ -129,7 +129,8 @@ def view_expenses(expenses):
 
     print(f"\n{'Category': <15}{'Amount':>10}") #category and amount are columns and expenses are listed as rows of category and amount.
     print("-" * 25)
-    for e in print(f"{e['category']: <15}{e['amount']:>10.2f}") #rows are alignded properly under the column headings and expenses are rounded to 2 decimal places.
+    for e in expenses:
+        print(f"{e['category']: <15}{e['amount']:>10.2f}") #rows are alignded properly under the column headings and expenses are rounded to 2 decimal places.
 
 
 def delete_expense(expenses):
