@@ -134,10 +134,38 @@ def view_expenses(expenses):
 
 
 def delete_expense(expenses):
-    """Display expenses with indexing and grouped into categories.
+    """Display expenses with indexing and oganised under its respective category.
     Ask which expense number to delete and delete it after making sure the expense exists.
     """
-    pass
+    if len(expenses) == 0:
+        print("No expenses added yet.")
+        return
+
+    grouped_expenses = {} #dictionary to group expenses by category.
+    for i, e in enumerate(expenses, start=1): #numbers each dictionary in the expenses list
+        category = e["category"] 
+        if category not in grouped_expenses: #if the category isn't already in the grouped expense 
+            grouped_expenses[category] = []
+        grouped_expenses[category].append((i, e["amount"])) #the amount for that expense is added to dictionary of list
+
+    print("\n--- Expenses ---")
+    for category, items in grouped_expenses.items(): #loops thorugh the grouped dictionary where each key is a category
+        #and the value assigned to that key is a list of tuples where each tuple contains the expense index and amount.
+        #.items() gives the key and its value. 
+        print(f"\n{category}:")
+        for number, amount in items: #each tuple is separates into two variable: number and amount. 
+            print(f"  {number}. £{amount:.2f}")
+
+    try:                                                              
+        choice = int(input("\nEnter the number of the expense to delete: "))  
+        removed = expenses.pop(choice - 1)
+
+    except (ValueError, IndexError):                                  
+        print("Invalid choice.")                                     
+        return             
+
+    print(f"Deleted: {removed['category']} - £{removed['amount']:.2f}")
+
 
 
 def total_expenses(expenses):
