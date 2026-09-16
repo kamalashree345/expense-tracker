@@ -175,7 +175,6 @@ def total_expenses(expenses):
 
     The category_totals is a dictionary where each key is a category and the value assigned to 
     that key is the total expense for that category.
-
     """
     if len(expenses) == 0:
         print("No expenses added yet.")
@@ -204,27 +203,43 @@ def total_expenses(expenses):
 
 
 def load_expenses(filename):
-    """Opens file if it exists, reads it line-by-line and rebuilds list of dictionaries.
-    If a file does not exist, then an empty list of expenses is returned"""
-    pass
+    """Opes file if it exists, read it line-by-line and rebuild list of dictionaries.
+    If a file does not exist, then return an empty list of expenses.
+    """
+    expenses = []
+
+    try:
+        with open(filename, "r") as f: #trying to open the file and read it. 'f' represents the open file.
+            for line in f:
+                category,amount = line.strip().split(",") #.strip() removes any whitespace from the end to the start of the next string. 
+                #string before ',' is assigned to category and string after ',' is assigned to amount.
+                expenses.append({"category": category, "amount": float(amount)}) #rebuilding the list of dictionaries.
+
+    except FileNotFoundError: 
+        pass #program does nothing if file is not found.
+
+    return expenses 
 
 
 def save_expenses(filename, expenses):
-    """Opens the file for writing.
-    Writes each expense as category and amount in a single line.
+    """Open the file for writing.
+    Write each expense as category and amount in a single line.
+    """
+    with open(filename, 'w') as f: #opens the file for writing
+        for e in expenses:
+            f.write(f"{e['category']}, {e['amount']}\n") #each expense is written in a new line with each line having category and amount. 
+            #the dictionaries in expenses list are written to the file. 
+
+def load_categories(filename):
+    """Read category names line by line from file and return a list of categories.
+    Return an empty list if file does not exist.
     """
     pass
 
 
-def load_categories(filename):
-    """Reads category names line by linr from file and returns a list of categories.
-    An ampty list is returned if file does not exist"""
-    pass
-
-
 def save_categories(filename, categories):
-    """Opens the file for writing.
-    Each category is written in a single line.
+    """Open the file for writing.
+    Write each category is in a single line.
     """
     pass
 
