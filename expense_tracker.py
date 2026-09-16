@@ -234,14 +234,27 @@ def load_categories(filename):
     """Read category names line by line from file and return a list of categories.
     Return an empty list if file does not exist.
     """
-    pass
+    categories = []
+
+    try:
+        with open(filename, "r") as f:
+            for line in f:
+                categories.append(line.strip()) #removes the whitespace between the strings in subsequent lines.
+                #rebuilds the list of categories.
+
+    except FileNotFoundError:
+        pass
+
+    return categories
 
 
 def save_categories(filename, categories):
     """Open the file for writing.
     Write each category is in a single line.
     """
-    pass
+    with open(filename, "w") as f: #opens file for writing
+        for c in categories: 
+            f.write(c + "\n") #each category is written in a new line.
 
 
 def main(): #function that can run the whole program/functions written in the whole program.
